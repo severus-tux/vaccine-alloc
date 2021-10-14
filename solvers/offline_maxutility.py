@@ -6,14 +6,13 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from vaccine_alloc_instance import *
 from allocation_solution import *
 	
-class LPOfflineMaxFlowMaxUtility:
+class LPOfflineMaxUtility:
 	def __init__(self, vaccine_obj):
 		self.vaccine_obj = vaccine_obj
 
 	def solve(self):
 		## BEGIN: PreSetup LP
 
-		lmda=0.5*(1/np.sum(self.vaccine_obj.U_nxd))
 		days = ["d_"+str(i) for i in range(self.vaccine_obj.d)]
 		catagories = ["c_"+str(i) for i in range(self.vaccine_obj.c)]
 		catagory_nodes = ["c_"+str(i)+"_"+str(j) for i in range(self.vaccine_obj.d) for j in range(self.vaccine_obj.c)]
@@ -87,7 +86,7 @@ class LPOfflineMaxFlowMaxUtility:
 		prob = LpProblem(name="Offline_maxFlow_max_Utility_Qd_Qdxc",sense=LpMaximize)
 
 		# Creates the objective function
-		obj = [vars[arcs[0]]]+[vars[a]* costs[a]*lmda for a in arcs[1:]]
+		obj = [vars[a]* costs[a] for a in arcs[1:]]
 		prob += lpSum(obj), "Total Cost of Transport"
 
 		# Creates all problem constraints - this ensures the amount going into each node is equal to the amount leaving
