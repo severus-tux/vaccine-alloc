@@ -82,7 +82,7 @@ class LPOnlineMaxFlowMaxUtility:
 
 			## BEGIN: Setup LP
 			# Creates the boundless Variables as Continues_valued_variables
-			vars = LpVariable.dicts("Route",arcs,None,None,cat='Continuous')#LpInteger)
+			vars = LpVariable.dicts("Route",arcs,None,None,cat='Continuous')#LpInteger) 
 
 			# Creates the upper and lower bounds on the variables
 			for a in arcs:
@@ -114,8 +114,6 @@ class LPOnlineMaxFlowMaxUtility:
 			sol.total_flow += value(vars[("s","v")])
 			local_q = local_q - value(vars[("s","v")])
 
-			# #Remove this later
-			todays_util=0.0
 
 			for i in range(self.vaccine_obj.n):
 				if (self.vaccine_obj.availability[i][d_i]==1 and vaccination_status[i] == False):
@@ -128,8 +126,7 @@ class LPOnlineMaxFlowMaxUtility:
 								local_Q_c[k] -= 1 
 								local_Q_cxd[k][d_i] -= 1 
 								vaccination_status[i] = True
-								# todays_agents.append("a_"+str(i))
-								todays_util += self.vaccine_obj.U_nxd[i][d_i]
+								
 
 			# print("Today's vaccine",value(vars[("s","v")]),value(vars[("v","d_"+str(d_i))]))
 			# print("Agents",todays_agents)

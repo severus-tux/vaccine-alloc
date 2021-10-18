@@ -1,0 +1,6 @@
+Analysis,,
+Algo,Avg Flow,Avg Utility
+LPOfflineMaxFlowMaxUtility,100,41.4132761975426
+LPOfflineMaxUtility,94.93,41.4133891030966
+LPOnlineMaxUtility,91.47,36.422436698315
+LPOnlineMaxFlowMaxUtility,100,36.4313397667488

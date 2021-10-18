@@ -22,4 +22,5 @@ class VaccineAllocInstance:
 		print("catagory quota: ",self.Q_c)
 		print("CatagoryxDaily quota:\n",np.matrix(self.Q_cxd))
 		print("Availability:\n",np.matrix(self.availability))
+		print("belongsToCatagory:\n",np.matrix(self.belongsToCatagory))
 		print("Utility:\n",np.matrix(self.U_nxd))
