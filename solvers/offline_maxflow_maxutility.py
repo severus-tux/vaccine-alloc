@@ -1,6 +1,7 @@
 from pulp import *
 import sys
 import os
+import copy
 import numpy as np
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from vaccine_alloc_instance import *
@@ -8,7 +9,7 @@ from allocation_solution import *
 	
 class LPOfflineMaxFlowMaxUtility:
 	def __init__(self, vaccine_obj):
-		self.vaccine_obj = vaccine_obj
+		self.vaccine_obj = copy.deepcopy(vaccine_obj)
 
 	def solve(self):
 		## BEGIN: PreSetup LP

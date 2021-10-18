@@ -7,13 +7,11 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from vaccine_alloc_instance import *
 from allocation_solution import *
 
-class LPOnlineMaxFlowMaxUtility:
+class LPOnlineMaxUtility:
 	def __init__(self, vaccine_obj):
 		self.vaccine_obj = copy.deepcopy(vaccine_obj)
 
 	def solve(self):
-
-		lmda=0.5*(1/np.sum(self.vaccine_obj.U_nxd))
 
 		#Storing the quotas locally to update after every iteration
 		local_q = self.vaccine_obj.q
@@ -93,7 +91,7 @@ class LPOnlineMaxFlowMaxUtility:
 			prob = LpProblem(name="Online_maxFlow_max_Utility_Qd_Qdxc",sense=LpMaximize)
 
 			# Creates the objective function
-			obj = [vars[arcs[0]]]+[vars[a]* costs[a]*lmda for a in arcs[1:]]
+			obj = [vars[a]* costs[a] for a in arcs[1:]]
 			prob += lpSum(obj), "Total Cost of Transport"
 
 			# Creates all problem constraints - this ensures the amount going into each node is equal to the amount leaving
@@ -115,12 +113,12 @@ class LPOnlineMaxFlowMaxUtility:
 			local_q = local_q - value(vars[("s","v")])
 
 			# #Remove this later
-			todays_util=0.0
+			todays_util=0
 
 			for i in range(self.vaccine_obj.n):
 				if (self.vaccine_obj.availability[i][d_i]==1 and vaccination_status[i] == False):
 					for k in range(self.vaccine_obj.c):
-						if (self.vaccine_obj.belongsToCatagory[i][k]==1):
+						if (self.vaccine_obj.belongsToCatagory[i][k]):
 							if ((value(vars[("c_"+str(d_i)+"_"+str(k),"a_"+str(i))]))==1.0):
 								sol.Allocation[i][d_i]=k
 								sol.total_utility += self.vaccine_obj.U_nxd[i][d_i]
@@ -128,11 +126,11 @@ class LPOnlineMaxFlowMaxUtility:
 								local_Q_c[k] -= 1 
 								local_Q_cxd[k][d_i] -= 1 
 								vaccination_status[i] = True
-								# todays_agents.append("a_"+str(i))
 								todays_util += self.vaccine_obj.U_nxd[i][d_i]
+								# todays_agents.append("a_"+str(i))
 
 			# print("Today's vaccine",value(vars[("s","v")]),value(vars[("v","d_"+str(d_i))]))
 			# print("Agents",todays_agents)
-			# print("MF: Day: ",d_i,"- utility:",todays_util)
+			# print("MU: Day: ",d_i,"- utility:",todays_util)
 
 		return sol
